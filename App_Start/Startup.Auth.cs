@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using InvoiceManager.Models;
+using InvoiceManager.Models.ViewModels;
+using InvoiceManager.Models.Domains;
 
 namespace InvoiceManager
 {
