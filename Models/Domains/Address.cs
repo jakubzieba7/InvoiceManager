@@ -9,6 +9,7 @@ namespace InvoiceManager.Models.Domains
         public Address()
         {
             Clients = new Collection<Client>();
+            Users = new Collection<ApplicationUser>();
         }
         public int Id { get; set; }
         [Required]
@@ -20,5 +21,6 @@ namespace InvoiceManager.Models.Domains
         [Required]
         public string PostalCode { get; set; }
         public ICollection<Client> Clients { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
     }
 }
