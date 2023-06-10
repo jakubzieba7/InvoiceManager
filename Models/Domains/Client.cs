@@ -21,7 +21,8 @@ namespace InvoiceManager.Models.Domains
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public Adress Adress { get; set; }
+        public Address Adress { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
+        public ApplicationUser Users { get; set; }
     }
 }

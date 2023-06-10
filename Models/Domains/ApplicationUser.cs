@@ -13,8 +13,11 @@ namespace InvoiceManager.Models.Domains
         public ApplicationUser()
         {
             Invoices = new Collection<Invoice>();
+            Clients = new Collection<Client>();
         }
         public ICollection<Invoice> Invoices { get; set; }
+        public ICollection<Client> Clients { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
