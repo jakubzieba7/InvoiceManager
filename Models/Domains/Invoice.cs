@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace InvoiceManager.Models.Domains
 {
     public class Invoice
     {
+        public Invoice()
+        {
+            InvoicePositions = new Collection<InvoicePosition>();
+        }
+
         public int ID { get; set; }
         [Required]
         public string Title { get; set; }
@@ -22,9 +28,9 @@ namespace InvoiceManager.Models.Domains
         [ForeignKey("User")]
         public string UserId { get; set; }
         public MethodOfPayment MethodOfPayment { get; set; }
-        public Client Client { get; set; } 
+        public Client Client { get; set; }
         public ApplicationUser User { get; set; }
-
+        public ICollection<InvoicePosition> InvoicePositions { get; set; }
 
     }
 }
