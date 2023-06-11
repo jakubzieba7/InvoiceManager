@@ -49,7 +49,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(x => x.Invoice.PaymentDate)
-                    @Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyy}", new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyy}", new { @class = "form-control", @id = "PaymentDate", autocomplete = "off" })
                 </div>
 
                 <div class="form-group">
@@ -74,6 +74,15 @@
     <script type="text/javascript">
 
         function generatePdf() { }
+
+        $('#PaymentDate').datepicker({
+            format: "dd-mm-yyyy",
+            language: "pl",
+            multidate: false,
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false
+        });
 
     </script>
 
