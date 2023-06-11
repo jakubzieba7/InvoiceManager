@@ -62,7 +62,10 @@
         }
     </div>
     <div class="col-5 offset-lg-1">
-
+        @if (Model.Invoice.ID != 0)
+        {
+            @Html.Partial("_InvoicePosition", Model.Invoice.InvoicePositions)
+        }
     </div>
 </div>
 

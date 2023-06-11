@@ -17,12 +17,19 @@ namespace InvoiceManager.Models.Domains
 
         public int ID { get; set; }
         [Required]
+        [Display(Name = "Tytuł")]
         public string Title { get; set; }
+        [Display(Name = "Wartość")]
         public decimal Value { get; set; }
+        [Display(Name = "Sposób płatności")]
         public int MethodOfPaymentId { get; set; }
+        [Display(Name = "Data płatności")]
         public DateTime PaymentDate { get; set; }
+        [Display(Name = "Data utworzenia")]
         public DateTime CreatedDate { get; set; }
+        [Display(Name = "Uwagi")]
         public string Comments { get; set; }
+        [Display(Name = "Klient")]
         public int ClientId { get; set; }
         [Required]
         [ForeignKey("User")]
