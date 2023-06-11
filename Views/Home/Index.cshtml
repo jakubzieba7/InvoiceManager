@@ -10,14 +10,17 @@
 
 @if (Model != null && Model.Any())
 {
-    <table>
+    <table class="table table-hover table-striped mt-3 mb-5">
         <thead>
-            <tr>Tytuł</tr>
-            <tr>Klient</tr>
-            <tr>Wartość</tr>
-            <tr>Data utworzenia</tr>
-            <tr>Termin płatności</tr>
-            <tr></tr>
+            <tr>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Klient</th>
+                <th scope="col">Wartość</th>
+                <th scope="col">Data utworzenia</th>
+                <th scope="col">Termin płatności</th>
+                <th scope="col"></th>
+            </tr>
+            
         </thead>
         <tbody>
             @foreach (var invoice in Model)
