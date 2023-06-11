@@ -6,7 +6,7 @@
 
 <h1 class="mb-3">Faktury</h1>
 
-<button class="btn btn-primary mb-3" onclick="@Url.Action("Invoice","Home")">Dodaj</button>
+<button class="btn btn-primary mb-3" onclick='window.location.href="@Url.Action("Invoice","Home")"'>Dodaj</button>
 
 @if (Model != null && Model.Any())
 {
@@ -20,13 +20,15 @@
                 <th scope="col">Termin płatności</th>
                 <th scope="col"></th>
             </tr>
-            
+
         </thead>
         <tbody>
             @foreach (var invoice in Model)
             {
                 <tr>
-                    <td>@invoice.Title</td>
+                    <td>
+                        <a href="@Url.Action("Invoice","Home",new {id=invoice.ID})"> @invoice.Title</a>
+                    </td>
                     <td>@invoice.Client.Name</td>
                     <td>@invoice.Value</td>
                     <td>@invoice.CreatedDate.ToString("dd-MM-yyyy")</td>
@@ -35,7 +37,7 @@
                         <button class="btn btn-danger btn-sm" onclick="deleteInvoice()">Usuń</button>
                     </td>
                 </tr>
-                
+
             }
         </tbody>
     </table>
@@ -58,5 +60,5 @@ else
         }
 
     </script>
-    
-    }
+
+}
