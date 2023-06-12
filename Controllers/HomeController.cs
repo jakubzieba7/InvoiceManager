@@ -41,15 +41,63 @@ namespace InvoiceManager.Controllers
 
         public ActionResult Invoice(int id = 0)
         {
-            var vm = new EditInvoiceViewModel
+            EditInvoiceViewModel vm = null;
+
+            if (id == 0)
             {
-                Clients = new List<Client> { new Client { Id = 1, Name = "Klient1" } },
-                MethodOfPayments=new List<MethodOfPayment> { new MethodOfPayment { Id=1,Name="Przelew"} },
-                Heading="Edycja faktury",
-                Invoice=new Invoice()
-                
-            }; 
-            
+                vm = new EditInvoiceViewModel
+                {
+                    Clients = new List<Client> { new Client { Id = 1, Name = "Klient1" } },
+                    MethodOfPayments = new List<MethodOfPayment> { new MethodOfPayment { Id = 1, Name = "Przelew" } },
+                    Heading = "Edycja faktury",
+                    Invoice = new Invoice()
+
+                };
+            }
+            else
+            {
+                vm = new EditInvoiceViewModel
+                {
+                    Clients = new List<Client> { new Client { Id = 1, Name = "Klient1" } },
+                    MethodOfPayments = new List<MethodOfPayment> { new MethodOfPayment { Id = 1, Name = "Przelew" } },
+                    Heading = "Edycja faktury",
+                    Invoice = new Invoice
+                    {
+                        ClientId = 1,
+                        Comments = "Uwagi do faktury",
+                        PaymentDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        MethodOfPaymentId = 1,
+                        ID = 1,
+                        Value = 1000,
+                        Title = "FA/07/2023",
+                        InvoicePositions = new List<InvoicePosition>
+                        {  new InvoicePosition
+                            {
+                                Lp=1,
+                                Product=new Product
+                                {
+                                    Name="Produkt 1"
+                                },
+                                Quantity=10,
+                                Value=1000
+                            },
+                            new InvoicePosition
+                            {
+                                Lp=2,
+                                Product=new Product
+                                {
+                                    Name="Produkt 2"
+                                },
+                                Quantity=4,
+                                Value=120
+                            }
+                        }
+                    }
+
+                };
+            }
+
             return View(vm);
         }
 
