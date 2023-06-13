@@ -74,6 +74,7 @@ namespace InvoiceManager.Controllers
                         InvoicePositions = new List<InvoicePosition>
                         {  new InvoicePosition
                             {
+                                Id = 1,
                                 Lp=1,
                                 Product=new Product
                                 {
@@ -84,6 +85,7 @@ namespace InvoiceManager.Controllers
                             },
                             new InvoicePosition
                             {
+                                Id=2,
                                 Lp=2,
                                 Product=new Product
                                 {
@@ -95,6 +97,38 @@ namespace InvoiceManager.Controllers
                         }
                     }
 
+                };
+            }
+
+            return View(vm);
+        }
+
+        public ActionResult InvoicePosition(int invoiceId, int invoicePositionId = 0)
+        {
+            EditInvoicePositionViewModel vm = null;
+
+            if (invoicePositionId == 0)
+            {
+                vm = new EditInvoicePositionViewModel
+                {
+                    InvoicePosition = new InvoicePosition(),
+                    Heading = "Dodawanie nowej pozycji",
+                    Products = new List<Product> { new Product { Id = 1, Name = "Produkt 1" } }
+                };
+            }
+            else
+            {
+                vm = new EditInvoicePositionViewModel
+                {
+                    InvoicePosition = new InvoicePosition
+                    {
+                        Lp = 1,
+                        Value = 111,
+                        Quantity = 10,
+                        ProductId = 1
+                    },
+                    Heading = "Dodawanie nowej pozycji",
+                    Products = new List<Product> { new Product { Id = 1, Name = "Produkt 1" } }
                 };
             }
 
