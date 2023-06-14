@@ -16,6 +16,7 @@ namespace InvoiceManager.Controllers
     {
         private InvoiceRepository _invoiceRepository = new InvoiceRepository();
         private ClientRepository _clientRepository = new ClientRepository();
+        private ProductRepository _productRepository = new ProductRepository();
 
         public ActionResult Index()
         {
@@ -62,34 +63,33 @@ namespace InvoiceManager.Controllers
 
         public ActionResult InvoicePosition(int invoiceId, int invoicePositionId = 0)
         {
-            EditInvoicePositionViewModel vm = null;
+            var userId = User.Identity.GetUserId();
 
-            if (invoicePositionId == 0)
-            {
-                vm = new EditInvoicePositionViewModel
-                {
-                    InvoicePosition = new InvoicePosition(),
-                    Heading = "Dodawanie nowej pozycji",
-                    Products = new List<Product> { new Product { Id = 1, Name = "Produkt 1" } }
-                };
-            }
-            else
-            {
-                vm = new EditInvoicePositionViewModel
-                {
-                    InvoicePosition = new InvoicePosition
-                    {
-                        Lp = 1,
-                        Value = 111,
-                        Quantity = 10,
-                        ProductId = 1
-                    },
-                    Heading = "Dodawanie nowej pozycji",
-                    Products = new List<Product> { new Product { Id = 1, Name = "Produkt 1" } }
-                };
-            }
+            var invoicePosition = invoicePositionId == 0 ? GetNewPosition(invoiceId, invoicePositionId) : _invoiceRepository.GetInvoicePosition(invoicePositionId, userId);
+
+            var vm = PrepareInvoicePositionVm(invoicePosition);
 
             return View(vm);
+        }
+
+        private EditInvoicePositionViewModel PrepareInvoicePositionVm(InvoicePosition invoicePosition)
+        {
+            return new EditInvoicePositionViewModel 
+            {
+                InvoicePosition = invoicePosition,
+                Heading=invoicePosition.Id==0?"Dodawanie nowej pozycji":"Pozycja",
+                Products=_productRepository.GetProducts(),
+            
+            };
+        }
+
+        private InvoicePosition GetNewPosition(int invoiceId, int invoicePositionId)
+        {
+            return new InvoicePosition
+            {
+                InvoiceId = invoiceId,
+                Id=invoicePositionId,
+            };
         }
 
         [AllowAnonymous]

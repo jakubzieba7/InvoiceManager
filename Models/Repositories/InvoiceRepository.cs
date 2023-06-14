@@ -18,7 +18,12 @@ namespace InvoiceManager.Models.Repositories
             throw new NotImplementedException();
         }
 
-        internal List<MethodOfPayment> GetMethodsOfPayment()
+        public List<MethodOfPayment> GetMethodsOfPayment()
+        {
+            throw new NotImplementedException();
+        }
+
+        public InvoicePosition GetInvoicePosition(int invoicePositionId, string userId)
         {
             throw new NotImplementedException();
         }
