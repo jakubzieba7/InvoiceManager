@@ -37,5 +37,20 @@ namespace InvoiceManager.Models.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public void AddPosition(InvoicePosition invoicePosition, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePosition(InvoicePosition invoicePosition, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateInvoiceValue(int invoiceId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

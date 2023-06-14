@@ -12,5 +12,10 @@ namespace InvoiceManager.Models.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Product GetProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

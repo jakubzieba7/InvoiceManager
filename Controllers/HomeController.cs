@@ -106,6 +106,25 @@ namespace InvoiceManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult InvoicePosition(InvoicePosition invoicePosition)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var product = _productRepository.GetProduct(invoicePosition.ProductId);
+
+            invoicePosition.Value = invoicePosition.Quantity * product.Value;
+
+            if (invoicePosition.Id == 0)
+                _invoiceRepository.AddPosition(invoicePosition, userId);
+            else
+                _invoiceRepository.UpdatePosition(invoicePosition, userId);
+
+            _invoiceRepository.UpdateInvoiceValue(invoicePosition.InvoiceId);
+
+            return RedirectToAction("Invoice", new {id=invoicePosition.InvoiceId });
+        }
+
         [AllowAnonymous]
         public ActionResult About()
         {
