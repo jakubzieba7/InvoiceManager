@@ -48,7 +48,17 @@ namespace InvoiceManager.Models.Repositories
             throw new NotImplementedException();
         }
 
-        public void UpdateInvoiceValue(int invoiceId)
+        public decimal UpdateInvoiceValue(int invoiceId, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeletePosition(int id, string userId)
         {
             throw new NotImplementedException();
         }
