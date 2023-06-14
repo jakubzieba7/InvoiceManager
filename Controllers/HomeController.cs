@@ -74,12 +74,12 @@ namespace InvoiceManager.Controllers
 
         private EditInvoicePositionViewModel PrepareInvoicePositionVm(InvoicePosition invoicePosition)
         {
-            return new EditInvoicePositionViewModel 
+            return new EditInvoicePositionViewModel
             {
                 InvoicePosition = invoicePosition,
-                Heading=invoicePosition.Id==0?"Dodawanie nowej pozycji":"Pozycja",
-                Products=_productRepository.GetProducts(),
-            
+                Heading = invoicePosition.Id == 0 ? "Dodawanie nowej pozycji" : "Pozycja",
+                Products = _productRepository.GetProducts(),
+
             };
         }
 
@@ -88,8 +88,22 @@ namespace InvoiceManager.Controllers
             return new InvoicePosition
             {
                 InvoiceId = invoiceId,
-                Id=invoicePositionId,
+                Id = invoicePositionId,
             };
+        }
+
+        [HttpPost]
+        public ActionResult Invoice(Invoice invoice)
+        {
+            var userId = User.Identity.GetUserId();
+            invoice.UserId = userId;
+
+            if (invoice.ID == 0)
+                _invoiceRepository.Add(invoice);
+            else
+                _invoiceRepository.Update(invoice);
+
+            return RedirectToAction("Index");
         }
 
         [AllowAnonymous]

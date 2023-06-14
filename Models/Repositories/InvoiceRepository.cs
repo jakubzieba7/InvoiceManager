@@ -27,5 +27,15 @@ namespace InvoiceManager.Models.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public void Add(Invoice invoice)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Invoice invoice)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
