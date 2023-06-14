@@ -1,5 +1,7 @@
 ﻿using InvoiceManager.Models.Domains;
+using InvoiceManager.Models.Repositories;
 using InvoiceManager.Models.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,95 +14,50 @@ namespace InvoiceManager.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private InvoiceRepository _invoiceRepository = new InvoiceRepository();
+        private ClientRepository _clientRepository = new ClientRepository();
+
         public ActionResult Index()
         {
-            var invoices = new List<Invoice>()
-            {
-            new Invoice
-                {
-                    ID=1,
-                    Title="FA/01/2023",
-                    CreatedDate= DateTime.Now,
-                    PaymentDate= DateTime.Now,
-                    Value=1200,
-                    Client=new Client{ Name="Klient 1"}
-                },
-            new Invoice
-                {
-                    ID=2,
-                    Title="FA/02/2023",
-                    CreatedDate= DateTime.Now,
-                    PaymentDate= DateTime.Now,
-                    Value=1500,
-                    Client=new Client{ Name="Klient 2"}
-                }
-            };
+            var userId = User.Identity.GetUserId();
+
+            var invoices = _invoiceRepository.GetInvoices(userId);
+
 
             return View(invoices);
         }
 
         public ActionResult Invoice(int id = 0)
         {
-            EditInvoiceViewModel vm = null;
+            var userId = User.Identity.GetUserId();
 
-            if (id == 0)
-            {
-                vm = new EditInvoiceViewModel
-                {
-                    Clients = new List<Client> { new Client { Id = 1, Name = "Klient1" } },
-                    MethodOfPayments = new List<MethodOfPayment> { new MethodOfPayment { Id = 1, Name = "Przelew" } },
-                    Heading = "Edycja faktury",
-                    Invoice = new Invoice()
+            var invoice = id == 0 ? GetNewInvoice(userId) : _invoiceRepository.GetInvoice(id, userId);
 
-                };
-            }
-            else
-            {
-                vm = new EditInvoiceViewModel
-                {
-                    Clients = new List<Client> { new Client { Id = 1, Name = "Klient1" } },
-                    MethodOfPayments = new List<MethodOfPayment> { new MethodOfPayment { Id = 1, Name = "Przelew" } },
-                    Heading = "Edycja faktury",
-                    Invoice = new Invoice
-                    {
-                        ClientId = 1,
-                        Comments = "Uwagi do faktury",
-                        PaymentDate = DateTime.Now,
-                        CreatedDate = DateTime.Now,
-                        MethodOfPaymentId = 1,
-                        ID = 1,
-                        Value = 1000,
-                        Title = "FA/07/2023",
-                        InvoicePositions = new List<InvoicePosition>
-                        {  new InvoicePosition
-                            {
-                                Id = 1,
-                                Lp=1,
-                                Product=new Product
-                                {
-                                    Name="Produkt 1"
-                                },
-                                Quantity=10,
-                                Value=1000
-                            },
-                            new InvoicePosition
-                            {
-                                Id=2,
-                                Lp=2,
-                                Product=new Product
-                                {
-                                    Name="Produkt 2"
-                                },
-                                Quantity=4,
-                                Value=120
-                            }
-                        }
-                    }
-
-                };
-            }
+            var vm = PrepareInvoiceVm(invoice, userId);
 
             return View(vm);
+        }
+
+
+        private object PrepareInvoiceVm(Invoice invoice, string userId)
+        {
+            return new EditInvoiceViewModel
+            {
+                Invoice = invoice,
+                Heading = invoice.ID == 0 ? "Dodawanie nowej faktury" : "Faktura",
+                Clients = _clientRepository.GetClients(userId),
+                MethodOfPayments = _invoiceRepository.GetMethodsOfPayment()
+            };
+        }
+
+        private Invoice GetNewInvoice(string userId)
+        {
+            return new Invoice
+            {
+                UserId = userId,
+                CreatedDate = DateTime.Now,
+                PaymentDate = DateTime.Now.AddDays(7),
+            };
         }
 
         public ActionResult InvoicePosition(int invoiceId, int invoicePositionId = 0)
