@@ -35,7 +35,10 @@ namespace InvoiceManager.Models.Repositories
 
         public List<MethodOfPayment> GetMethodsOfPayment()
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                return context.MethodOfPayments.ToList();
+            }
         }
 
         public InvoicePosition GetInvoicePosition(int invoicePositionId, string userId)
