@@ -79,7 +79,13 @@ namespace InvoiceManager.Models.Repositories
 
         public void AddPosition(InvoicePosition invoicePosition, string userId)
         {
-            throw new NotImplementedException();
+            using (var context=new ApplicationDbContext())
+            {
+                var invoice = context.Invoices.Single(x => x.ID == invoicePosition.InvoiceId && x.UserId == userId);
+
+                context.InvoicePositions.Add(invoicePosition);
+                context.SaveChanges();
+            }
         }
 
         public void UpdatePosition(InvoicePosition invoicePosition, string userId)
