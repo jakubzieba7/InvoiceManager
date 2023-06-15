@@ -90,7 +90,20 @@ namespace InvoiceManager.Models.Repositories
 
         public void UpdatePosition(InvoicePosition invoicePosition, string userId)
         {
-            throw new NotImplementedException();
+            using (var context=new ApplicationDbContext())
+            {
+                var positionToUpdate = context.InvoicePositions
+                    .Include(x => x.Product)
+                    .Include(x => x.Invoice)
+                    .Single(x => x.Id == invoicePosition.Id && x.Invoice.UserId == userId);
+
+                positionToUpdate.Lp=invoicePosition.Lp;
+                positionToUpdate.ProductId= invoicePosition.ProductId;
+                positionToUpdate.Quantity=invoicePosition.Quantity;
+                positionToUpdate.Value = invoicePosition.Value * positionToUpdate.Product.Value;
+
+                context.SaveChanges();
+            }
         }
 
         public decimal UpdateInvoiceValue(int invoiceId, string userId)
