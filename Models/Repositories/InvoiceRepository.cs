@@ -1,8 +1,9 @@
 ﻿using InvoiceManager.Models.Domains;
+using InvoiceManager.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Data.Entity;
 
 namespace InvoiceManager.Models.Repositories
 {
@@ -10,7 +11,10 @@ namespace InvoiceManager.Models.Repositories
     {
         public List<Invoice> GetInvoices(string userId)
         {
-            throw new NotImplementedException();
+            using (var context=new ApplicationDbContext())
+            {
+                return context.Invoices.Include(x =>x.Client).Where(x=>x.UserId==userId).ToList();
+            }
         }
 
         public Invoice GetInvoice(int id, string userId)
