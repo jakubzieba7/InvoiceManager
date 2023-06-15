@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace InvoiceManager.Models.Repositories
 {
@@ -11,9 +12,9 @@ namespace InvoiceManager.Models.Repositories
     {
         public List<Invoice> GetInvoices(string userId)
         {
-            using (var context=new ApplicationDbContext())
+            using (var context = new ApplicationDbContext())
             {
-                return context.Invoices.Include(x =>x.Client).Where(x=>x.UserId==userId).ToList();
+                return context.Invoices.Include(x => x.Client).Where(x => x.UserId == userId).ToList();
             }
         }
 
@@ -62,7 +63,18 @@ namespace InvoiceManager.Models.Repositories
 
         public void Update(Invoice invoice)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                var invoiceToUpdate = context.Invoices.Single(x => x.ID == invoice.ID && x.UserId == invoice.UserId);
+
+                invoiceToUpdate.ClientId = invoice.ClientId;
+                invoiceToUpdate.Comments = invoice.Comments;
+                invoiceToUpdate.MethodOfPaymentId = invoice.MethodOfPaymentId;
+                invoiceToUpdate.PaymentDate = invoice.PaymentDate;
+                invoiceToUpdate.Title = invoice.Title;
+
+                context.SaveChanges();
+            }
         }
 
         public void AddPosition(InvoicePosition invoicePosition, string userId)
