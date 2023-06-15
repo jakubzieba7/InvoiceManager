@@ -19,7 +19,18 @@ namespace InvoiceManager.Models.Repositories
 
         public Invoice GetInvoice(int id, string userId)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                return context.Invoices
+                    .Include(x => x.InvoicePositions)
+                    .Include(x => x.InvoicePositions.Select(y => y.Product))
+                    .Include(x => x.MethodOfPayment)
+                    .Include(x => x.User)
+                    .Include(x => x.User.Address)
+                    .Include(x => x.Client)
+                    .Include(x => x.Client.Adress)
+                    .Single(x => x.ID == id && x.UserId == userId);
+            }
         }
 
         public List<MethodOfPayment> GetMethodsOfPayment()
