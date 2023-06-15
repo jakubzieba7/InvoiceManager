@@ -108,7 +108,15 @@ namespace InvoiceManager.Models.Repositories
 
         public decimal UpdateInvoiceValue(int invoiceId, string userId)
         {
-            throw new NotImplementedException();
+            using (var context=new ApplicationDbContext())
+            {
+                var invoice = context.Invoices.Include(x => x.InvoicePositions).Single(x => x.ID == invoiceId && x.UserId == userId);
+
+                invoice.Value=invoice.InvoicePositions.Sum(x => x.Value);
+                context.SaveChanges();
+
+                return invoice.Value;
+            }
         }
 
         public void Delete(int id, string userId)
