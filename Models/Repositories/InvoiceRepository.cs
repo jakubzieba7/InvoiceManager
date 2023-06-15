@@ -53,7 +53,11 @@ namespace InvoiceManager.Models.Repositories
 
         public void Add(Invoice invoice)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                context.Invoices.Add(invoice);
+                context.SaveChanges();
+            }
         }
 
         public void Update(Invoice invoice)
