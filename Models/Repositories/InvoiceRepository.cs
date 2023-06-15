@@ -131,7 +131,12 @@ namespace InvoiceManager.Models.Repositories
 
         public void DeletePosition(int id, string userId)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                var positionToDelete = context.InvoicePositions.Include(x=>x.Invoice).Single(x => x.Id == id && x.Invoice.UserId == userId);
+                context.InvoicePositions.Remove(positionToDelete);
+                context.SaveChanges();
+            }
         }
     }
 }
