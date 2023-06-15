@@ -43,7 +43,12 @@ namespace InvoiceManager.Models.Repositories
 
         public InvoicePosition GetInvoicePosition(int invoicePositionId, string userId)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                return context.InvoicePositions
+                    .Include(x => x.Invoice)
+                    .Single(x => x.Id == invoicePositionId && x.Invoice.UserId == userId);
+            }
         }
 
         public void Add(Invoice invoice)
