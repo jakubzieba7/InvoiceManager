@@ -21,43 +21,47 @@
                 <p class="alert alert-info mt-4 mb-4">Pola tytuł, klient, sposób płatności i termin są <strong>wymagane</strong></p>
             }
 
-                @Html.HiddenFor(x => x.Invoice.ID)
+            @Html.HiddenFor(x => x.Invoice.ID)
 
+            <div class="form-group">
+                @Html.LabelFor(x => x.Invoice.Title)
+                @Html.TextBoxFor(x => x.Invoice.Title, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Invoice.Title)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Invoice.ClientId)
+                @Html.DropDownListFor(x => x.Invoice.ClientId, new SelectList(Model.Clients, "Id", "Name"), "-- Wybierz klienta --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Invoice.ClientId)
+            </div>
+
+            if (Model.Invoice.ID != 0)
+            {
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Invoice.Title)
-                    @Html.TextBoxFor(x => x.Invoice.Title, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.LabelFor(x => x.Invoice.Value)
+                    @Html.TextBoxFor(x => x.Invoice.Value, new { @class = "form-control", @readonly = "readonly" })
                 </div>
+            }
 
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Invoice.ClientId)
-                    @Html.DropDownListFor(x => x.Invoice.ClientId, new SelectList(Model.Clients, "Id", "Name"), "-- Wybierz klienta --", new { @class = "form-control" })
-                </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Invoice.MethodOfPaymentId)
+                @Html.DropDownListFor(x => x.Invoice.MethodOfPaymentId, new SelectList(Model.MethodOfPayments, "Id", "Name"), "-- Wybierz sposób płatności --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Invoice.MethodOfPaymentId)
+            </div>
 
-                if (Model.Invoice.ID != 0)
-                {
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Invoice.Value)
-                        @Html.TextBoxFor(x => x.Invoice.Value, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                }
+            <div class="form-group">
+                @Html.LabelFor(x => x.Invoice.PaymentDate)
+                @Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyy}", new { @class = "form-control", @id = "PaymentDate", autocomplete = "off" })
+                @Html.ValidationMessageFor(x => x.Invoice.PaymentDate)
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Invoice.MethodOfPaymentId)
-                    @Html.DropDownListFor(x => x.Invoice.MethodOfPaymentId, new SelectList(Model.MethodOfPayments, "Id", "Name"), "-- Wybierz sposób płatności --", new { @class = "form-control" })
-                </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Invoice.Comments)
+                @Html.TextAreaFor(x => x.Invoice.Comments, new { @class = "form-control" })
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Invoice.PaymentDate)
-                    @Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyy}", new { @class = "form-control", @id = "PaymentDate", autocomplete = "off" })
-                </div>
+            <button class="btn btn-primary btn-lg mb-5" type="submit">Zapisz</button>
 
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Invoice.Comments)
-                    @Html.TextAreaFor(x => x.Invoice.Comments, new { @class = "form-control" })
-                </div>
-
-                <button class="btn btn-primary btn-lg mb-5" type="submit">Zapisz</button>
-            
         }
     </div>
     <div class="col-5 offset-lg-1">

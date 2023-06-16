@@ -12,4 +12,8 @@
     white-space: normal;
 }
 
+.field-validation-error {
+    color: #e60000;
+}
+
 
