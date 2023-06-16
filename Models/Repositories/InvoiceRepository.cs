@@ -56,6 +56,7 @@ namespace InvoiceManager.Models.Repositories
         {
             using (var context = new ApplicationDbContext())
             {
+                invoice.CreatedDate = DateTime.Now;
                 context.Invoices.Add(invoice);
                 context.SaveChanges();
             }
