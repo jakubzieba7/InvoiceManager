@@ -22,6 +22,7 @@
             }
 
             @Html.HiddenFor(x => x.Invoice.ID)
+            @Html.HiddenFor(x => x.Invoice.UserId)
 
             <div class="form-group">
                 @Html.LabelFor(x => x.Invoice.Title)
@@ -78,13 +79,30 @@
 
         function generatePdf() { }
 
-        $('#PaymentDate').datepicker({
-            format: "dd-mm-yyyy",
-            language: "pl",
-            multidate: false,
-            autoclose: true,
-            todayHighlight: true,
-            forceParse: false
+        $(document).ready(function () {
+
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+
+            $.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+            $('#PaymentDate').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
         });
 
         function deleteInvoicePosition(id, invoiceId, btn) {
