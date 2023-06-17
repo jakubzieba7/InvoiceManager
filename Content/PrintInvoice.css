@@ -9,6 +9,24 @@ nav, footer {
     display: none !important;
 }
 
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex !important;
+}
+
+.row > div {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+.row, tr, td, th, thead, thead tr, thead tr th, tfoot {
+    page-break-inside: avoid !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+}
+
 .invoice-font {
     font-size: 18px;
     text-align: center;
