@@ -77,7 +77,26 @@
 {
     <script type="text/javascript">
 
-        function generatePdf() { }
+        function generatePdf() {
+             $.ajax({
+                type: 'POST',
+                url: "@Url.Action("InvoiceToPdf", "Print")",
+                data: {
+                    id: '@Model.Invoice.ID'
+                },
+                success: function (data)
+                {
+                    window.location = '@Url.Action("DownloadInvoicePdf", "Print")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                },
+                error: function (data)
+                {
+                    alert(data.Message);
+                },
+                 dataType: 'json',
+                 cache: false
+
+                });
+        }
 
         $(document).ready(function () {
 
@@ -135,7 +154,8 @@
                 },
                 dataType:'json'
 
-                });        }
+                });
+        }
 
     </script>
 
