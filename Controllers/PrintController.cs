@@ -1,13 +1,17 @@
-﻿using InvoiceManager.Models.Domains;
+﻿using InvoiceManager.Models;
+using InvoiceManager.Models.Domains;
 using InvoiceManager.Models.Repositories;
 using Microsoft.AspNet.Identity;
 using Rotativa;
 using Rotativa.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static InvoiceManager.Models.KnownFolders;
 
 namespace InvoiceManager.Controllers
 {
@@ -62,6 +66,24 @@ namespace InvoiceManager.Controllers
             var invoice = _invoiceRepository.GetInvoice(id, userId);
 
             return View(invoice);
+        }
+
+        public void PrintInvoice(int id)
+        {
+            InvoiceToPdf(id);
+
+            var downloadFolderPath = GetPath("{374DE290-123F-4565-9164-39C4925E467B}", KnownFolderFlags.DontVerify, false);
+            var userId = User.Identity.GetUserId();
+            var invoice = _invoiceRepository.GetInvoice(id, userId);
+
+            Process p = new Process();
+            p.StartInfo = new ProcessStartInfo()
+            {
+                CreateNoWindow = true,
+                Verb = "print",
+                FileName = Path.Combine(downloadFolderPath, $@"Faktura_{invoice.ID}.pdf") //put the correct path here
+            };
+            p.Start();
         }
     }
 }

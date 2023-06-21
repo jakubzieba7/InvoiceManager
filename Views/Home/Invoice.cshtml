@@ -10,6 +10,7 @@
 {
     <button class="btn btn-primary mb-3" onclick='window.location.href="@Url.Action("InvoicePosition","Home", new {invoiceId=Model.Invoice.ID})"'>Dodaj pozycję</button>
     <button class="btn btn-secondary mb-3" onclick="generatePdf()">Generuj PDF</button>
+    <button class="btn btn-secondary mb-3" onclick='window.location.href="@Url.Action("PrintInvoice","Print", new {invoiceId=Model.Invoice.ID})"'>Drukuj</button>
 }
 
 <div class="row">
