@@ -189,7 +189,6 @@
     <Compile Include="Models\Domains\InvoicePosition.cs" />
     <Compile Include="Models\Domains\MethodOfPayment.cs" />
     <Compile Include="Models\Domains\Product.cs" />
-    <Compile Include="Models\KnownFolders.cs" />
     <Compile Include="Models\Repositories\ClientRepository.cs" />
     <Compile Include="Models\Repositories\InvoiceRepository.cs" />
     <Compile Include="Models\Repositories\ProductRepository.cs" />

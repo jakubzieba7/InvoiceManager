@@ -10,7 +10,8 @@
 {
     <button class="btn btn-primary mb-3" onclick='window.location.href="@Url.Action("InvoicePosition","Home", new {invoiceId=Model.Invoice.ID})"'>Dodaj pozycję</button>
     <button class="btn btn-secondary mb-3" onclick="generatePdf()">Generuj PDF</button>
-    <button class="btn btn-secondary mb-3" onclick='window.location.href="@Url.Action("PrintInvoice","Print", new {invoiceId=Model.Invoice.ID})"'>Drukuj</button>
+    <button class="btn btn-secondary mb-3" onclick='window.location.href="@Url.Action("InvoiceTemplate","Print", new {invoiceId=Model.Invoice.ID})"'>Podgląd Faktury</button>
+    <button class="btn btn-secondary mb-3" onclick="printInvoice()">Drukuj Fakturę</button>
 }
 
 <div class="row">
@@ -99,6 +100,26 @@
                  cache: false
 
                 });
+        }
+
+        function printInvoice() {
+            $.ajax({
+
+                type: 'POST',
+                url: "@Url.Action("InvoiceTemplate", "Print", new { invoiceId = @Model.Invoice.ID })",
+                success: function (data)
+                {
+                    newWin = window.open("");
+                    newWin.document.write(data);
+                    newWin.print();
+                    newWin.close();
+                },
+                error: function (data)
+                {
+                    alert(data.Message);
+                },
+            });
+
         }
 
         $(document).ready(function () {
