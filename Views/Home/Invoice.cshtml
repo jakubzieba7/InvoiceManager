@@ -103,23 +103,15 @@
         }
 
         function printInvoice() {
-            $.ajax({
+            var url = '@Url.Action("InvoiceTemplate", "Print")' + '?id=' + '@Model.Invoice.ID';
+            var myWindow = window.open(url, '', 'width=800,height=600');
 
-                type: 'POST',
-                url: "@Url.Action("InvoiceTemplate", "Print", new { invoiceId = @Model.Invoice.ID })",
-                success: function (data)
-                {
-                    newWin = window.open("");
-                    newWin.document.write(data);
-                    newWin.print();
-                    newWin.close();
-                },
-                error: function (data)
-                {
-                    alert(data.Message);
-                },
-            });
-
+            myWindow.onload = function () {
+                myWindow.print();
+                myWindow.onafterprint = function () {
+                    myWindow.close();
+                };
+            };
         }
 
         $(document).ready(function () {

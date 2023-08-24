@@ -15,7 +15,7 @@
             @foreach (var position in Model)
             {
                 <tr>
-                    <td><a class="font-weight-bold" href="@Url.Action("Invoice","Home",new {invoiceId=position.InvoiceId,invoicePositionId=position.Id})"> @position.Lp</a></td>
+                    <td><a class="font-weight-bold" href="@Url.Action("InvoicePosition","Home",new {invoiceId=position.InvoiceId,invoicePositionId=position.Id})"> @position.Lp</a></td>
                     <td>@position.Product.Name</td>
                     <td>@position.Quantity</td>
                     <td>@position.Value zł</td>

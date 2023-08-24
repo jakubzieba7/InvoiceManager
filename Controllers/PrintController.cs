@@ -53,10 +53,10 @@ namespace InvoiceManager.Controllers
             return File(data, "application/pdf", fileName);
         }
 
-        public ActionResult InvoiceTemplate(int invoiceId)
+        public ActionResult InvoiceTemplate(int id)
         {
             var userId = User.Identity.GetUserId();
-            var invoice = _invoiceRepository.GetInvoice(invoiceId, userId);
+            var invoice = _invoiceRepository.GetInvoice(id, userId);
 
             return View(invoice);
         }

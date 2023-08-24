@@ -82,6 +82,7 @@ namespace InvoiceManager.Models.Repositories
         {
             using (var context=new ApplicationDbContext())
             {
+                //weryfikacja czy dany rekord istnieje w bazie danych
                 var invoice = context.Invoices.Single(x => x.ID == invoicePosition.InvoiceId && x.UserId == userId);
 
                 context.InvoicePositions.Add(invoicePosition);
